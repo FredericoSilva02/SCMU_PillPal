@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957436300982",
+    "project_id": "pillpal-e782d",
+    "storage_bucket": "pillpal-e782d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957436300982:android:1efbfbf85746da70352017",
+        "android_client_info": {
+          "package_name": "pillpal.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuUx2bRKV8U0Vjtpl4iaYDln9zkwwatKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
