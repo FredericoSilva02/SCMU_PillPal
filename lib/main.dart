@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
         ),
-        home: LoginPage(),
+        home: login_Page(),
       ),
     );
   }

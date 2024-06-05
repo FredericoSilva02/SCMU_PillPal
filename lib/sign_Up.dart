@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pillpal/home_page.dart';
 import 'package:pillpal/main.dart';
-import 'package:pillpal/sign_Up.dart';
 
-class login_Page extends StatefulWidget {
-  const login_Page({super.key});
+class sign_Up extends StatefulWidget {
+  const sign_Up({super.key});
 
   @override
-  State<login_Page> createState() => _Loginpage();
+  State<sign_Up> createState() => _Sign_Up();
 }
 
-class _Loginpage extends State<login_Page> {
+class _Sign_Up extends State<sign_Up> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -43,10 +42,10 @@ class _Loginpage extends State<login_Page> {
                 fit: BoxFit.cover, // Adjust the fit as needed
               ),
               Text(
-                'Login',
+                'Sign Up',
                 style: TextStyle(fontSize: 30),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -57,7 +56,7 @@ class _Loginpage extends State<login_Page> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -66,6 +65,18 @@ class _Loginpage extends State<login_Page> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Palavra-passe',
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirma a palavra-passe',
                   ),
                 ),
               ),
@@ -99,16 +110,6 @@ class _Loginpage extends State<login_Page> {
                     foregroundColor: Colors.white, // Text color
                   ),
                 child: Text('Login'),
-              ),
-              SizedBox(height: 20),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => sign_Up()), 
-                  );
-                },
-                child: Text('Sign Up'),
               ),
             ],
           ),
