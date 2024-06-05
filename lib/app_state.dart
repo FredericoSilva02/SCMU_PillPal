@@ -33,18 +33,5 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
-  Future<DocumentReference> addMessageToGuestBook(String message) {
-    if (!_loggedIn) {
-      throw Exception('Must be logged in');
-    }
-
-    return FirebaseFirestore.instance
-        .collection('guestbook')
-        .add(<String, dynamic>{
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'text': message,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-    });
-  }
+  
 }

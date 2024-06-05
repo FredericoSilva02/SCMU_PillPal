@@ -2,6 +2,8 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pillpal/firebase_options.dart';
+import 'package:pillpal/home_page.dart';
+import 'package:pillpal/sign_Up.dart';
 
 import 'app_state.dart'; 
 import 'package:flutter/material.dart';

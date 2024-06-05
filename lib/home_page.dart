@@ -1,12 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart' // new
-    hide EmailAuthProvider, PhoneAuthProvider;    // new
-import 'package:flutter/material.dart';           // new
-import 'package:pillpal/guest_book.dart';
-import 'package:provider/provider.dart';          // new
+// ignore_for_file: prefer_const_constructors
 
-import 'app_state.dart';                          // new
-import 'src/authentication.dart';                 // new
-import 'src/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pillpal/medication.dart';       
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,40 +11,66 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Meetup'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Your Week',
+              style: TextStyle(
+                fontSize: 48, // Set the desired font size
+                fontWeight: FontWeight.bold, // Optionally set the font weight
+              ),
+            ),
+            Image.asset(
+              'lib/images/pillpal_image.png', 
+              height: 60, 
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
       ),
-      body: ListView(
-        children: <Widget>[
-          const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, 'October 30'),
-          const IconAndDetail(Icons.location_city, 'San Francisco'),
-          const Divider(
-            height: 8,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: Colors.grey,
-          ),
-          const Header("What we'll be doing"),
-          const Paragraph(
-            'Join us for a day full of Firebase Workshops and Pizza!',
-          ),
-          Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (appState.loggedIn) ...[
-                  const Header('Discussion'),
-                  GuestBook(
-                    addMessage: (message) =>
-                        appState.addMessageToGuestBook(message),
-                  ),
-                ],
-              ],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 40),
+          Text(
+            'Your Medications',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ],
-      ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              //TODO: make it soo its red on days the user has pills to take
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+              SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
+            ],
+          ),
+          SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              Text('Mo'),
+              Text('Tu'),
+              Text('We'),
+              Text('Th'),
+              Text('Fr'),
+              Text('Sa'),
+              Text('Do'),
+            ],
+          ),
+          MedicationPage()
+        ], 
+      )
+    
     );
   }
 }
