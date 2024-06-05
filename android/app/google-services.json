@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:957436300982:android:75db3f10a340f48e352017",
+        "android_client_info": {
+          "package_name": "com.example.pillpal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuUx2bRKV8U0Vjtpl4iaYDln9zkwwatKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:957436300982:android:1efbfbf85746da70352017",
         "android_client_info": {
           "package_name": "pillpal.app"

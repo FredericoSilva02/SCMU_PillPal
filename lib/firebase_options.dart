@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'pillpal-e782d.firebaseapp.com',
     storageBucket: 'pillpal-e782d.appspot.com',
   );
+
 }
