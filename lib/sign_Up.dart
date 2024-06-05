@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pillpal/LoginPage.dart';
 import 'package:pillpal/home_page.dart';
 import 'package:pillpal/main.dart';
 
@@ -16,10 +17,15 @@ class sign_Up extends StatefulWidget {
 class _Sign_Up extends State<sign_Up> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
-  Future signin() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text, password: _passwordController.text);
+  Future signup() async {
+    if (_passwordController.text == _confirmPasswordController.text) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
+    } else {
+      throw Exception('Password not matching!');
+    }
   }
 
   void dispose() {
@@ -56,7 +62,6 @@ class _Sign_Up extends State<sign_Up> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -64,11 +69,10 @@ class _Sign_Up extends State<sign_Up> {
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Palavra-passe',
+                    labelText: 'Password',
                   ),
                 ),
               ),
-              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -76,27 +80,22 @@ class _Sign_Up extends State<sign_Up> {
                   obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Confirma a palavra-passe',
+                    labelText: 'Confirm Password',
                   ),
                 ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => signin()
+                onPressed: () => signup()
                     .then((value) => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomePage()),
-                          )
+                          Navigator.pop(context),
                         })
                     .onError((error, stackTrace) => {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
                                     title: Text("Erro"),
-                                    content: Text(
-                                        "Email ou palavra-passe incorretos"),
+                                    content: Text(error.toString()),
                                     actions: [
                                       TextButton(
                                           onPressed: () =>
@@ -109,6 +108,16 @@ class _Sign_Up extends State<sign_Up> {
                     backgroundColor: Colors.red, // Button color
                     foregroundColor: Colors.white, // Text color
                   ),
+                child: Text('Sign Up'),
+              ),
+              SizedBox(height: 20),
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => login_Page()), 
+                  );
+                },
                 child: Text('Login'),
               ),
             ],

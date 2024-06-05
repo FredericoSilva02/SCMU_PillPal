@@ -46,7 +46,7 @@ class _Loginpage extends State<login_Page> {
                 'Login',
                 style: TextStyle(fontSize: 30),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
@@ -57,7 +57,6 @@ class _Loginpage extends State<login_Page> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
