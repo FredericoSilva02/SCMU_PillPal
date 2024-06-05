@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart' // new
-    hide EmailAuthProvider, PhoneAuthProvider;    // new
-import 'package:flutter/material.dart';           // new
+// new
+import 'package:flutter/material.dart'; // new
 import 'package:pillpal/guest_book.dart';
-import 'package:provider/provider.dart';          // new
+import 'package:provider/provider.dart'; // new
 
-import 'app_state.dart';                          // new
-import 'src/authentication.dart';                 // new
+import 'app_state.dart'; // new
+// new
 import 'src/widgets.dart';
 
 class HomePage extends StatelessWidget {
