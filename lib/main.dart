@@ -5,10 +5,10 @@ import 'package:pillpal/firebase_options.dart';
 import 'package:pillpal/home_page.dart';
 import 'package:pillpal/sign_Up.dart';
 
-import 'app_state.dart'; 
+import 'app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';  
-import 'LoginPage.dart';
+import 'package:provider/provider.dart';
+import 'login.dart';
 
 const primaryColor = Color.fromARGB(255, 255, 0, 0);
 
@@ -21,7 +21,6 @@ void main() async {
 
   runApp(MyApp());
 }
-
 
 // Change MaterialApp to MaterialApp.router and add the routerConfig
 class MyApp extends StatelessWidget {
@@ -38,9 +37,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
         ),
-        home: login_Page(),
+        home: LoginPage(),
       ),
     );
   }
 }
-
