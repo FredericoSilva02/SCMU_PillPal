@@ -2,6 +2,7 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pillpal/firebase_options.dart';
+import 'package:pillpal/home_page.dart';
 import 'app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ void main() async {
 // Change MaterialApp to MaterialApp.router and add the routerConfig
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +35,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
-        ),
-        home: LoginPage(),
+      ),
+      home: LoginPage(), 
+      routes: {
+        '/home': (context) => HomePage(),
+      },
       ),
     );
   }

@@ -21,6 +21,8 @@ class _LoginPage extends State<LoginPage> {
   Future signin() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
+      
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
