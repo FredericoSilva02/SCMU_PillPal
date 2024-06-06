@@ -20,56 +20,69 @@ class MedicationPage extends StatelessWidget {
   }
 
  @override
-Widget build(BuildContext context) {
-return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-      future: getMedication(FirebaseAuth.instance.currentUser!.uid),
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || !snapshot.data!.exists) {
-          return Center(child: Text('Sem medicação'));
-        } else {
-          var med = snapshot.data!.data();
-
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    med?['Name'],
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  if (med?['Description'] != null)
-                    Text(med?['Description']),
-                  SizedBox(height: 8),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.notifications),
-                      SizedBox(width: 8),
-                      Text("Reminders"),
-                    ],
-                  ),
-                  if (med?['Reminders'] != null)
-                    Text(med?['Reminders']!.join(", ")),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        // Handle edit action
-                      },
-                    ),
-                  ),
-                ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        future: getCurrentWeekMedications(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('Sem medicação'));
+          } else {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: snapshot.data!.docs.map((doc) {
+                    var med = doc.data();
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              med['Name'],
+                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            if (med['Description'] != null)
+                              Text(med['Description']),
+                            SizedBox(height: 8),
+                            Row(
+                              children: <Widget>[
+                                Icon(Icons.notifications),
+                                SizedBox(width: 8),
+                                Text("Reminders"),
+                              ],
+                            ),
+                            if (med['Reminders'] != null)
+                              Text((med['Reminders'] as List<dynamic>).join(", ")),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  // Handle edit action
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-            ),
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
   }
 }
@@ -79,6 +92,7 @@ return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         .collection('medication')
         .add(<String, dynamic>{
       'Name': name,
+      'UserId': FirebaseAuth.instance.currentUser!.uid,
       'Description': description,
       'Dosage': dosage,
       'Days': days,
@@ -88,32 +102,28 @@ return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     });
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getMedication(String id) async {
-  var x = FirebaseFirestore.instance
-    .collection('medication')
-    .doc('Aspirina_1000mg')
-    .get();
-
-    return x;
+  DateTime getStartOfWeek() {
+    DateTime now = DateTime.now();
+    int currentDay = now.weekday;
+    DateTime startOfWeek = now.subtract(Duration(days: currentDay - 1));
+    return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
   }
-  
-  
-  class Medication {
-  final String name;
-  final num? dosage;
-  final String? description;
-  final String? start;
-  final String? finish;
-  final List<String>? reminders;
-  final List<String>? days;
 
-  Medication({
-    required this.name,
-    this.description,
-    this.reminders,
-    this.days,
-    this.dosage,
-    this.start,
-    this.finish,
-  });
-}
+  DateTime getEndOfWeek() {
+    DateTime now = DateTime.now();
+    int currentDay = now.weekday;
+    DateTime endOfWeek = now.add(Duration(days: 7 - currentDay));
+    return DateTime(endOfWeek.year, endOfWeek.month, endOfWeek.day, 23, 59, 59);
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getCurrentWeekMedications() async {
+    DateTime startOfWeek = getStartOfWeek();
+    DateTime endOfWeek = getEndOfWeek();
+
+    return await FirebaseFirestore.instance
+        .collection('medication')
+        .where('UserId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('Start', isGreaterThanOrEqualTo: startOfWeek)
+        .where('Finish', isLessThanOrEqualTo: endOfWeek)
+        .get();
+  }

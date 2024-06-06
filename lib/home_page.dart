@@ -67,10 +67,11 @@ class HomePage extends StatelessWidget {
               Text('Do'),
             ],
           ),
-          MedicationPage()
+          SizedBox(height: 20),
+          Expanded(child: 
+          MedicationPage())
         ], 
-      )
-    
+      ),
     );
   }
 }
