@@ -16,11 +16,14 @@ class _SignUp extends State<SignUp> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
   Future<void> signup() async {
     String password = _passwordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
-    if (identical(password, confirmPassword)) {
+
+    if (password == confirmPassword) {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
@@ -112,10 +115,22 @@ class _SignUp extends State<SignUp> {
                       SizedBox(height: 15),
                       TextField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                          ),
                           prefixIcon: Icon(Icons.lock),
                           isDense: true,
                           contentPadding: EdgeInsets.only(
@@ -127,11 +142,24 @@ class _SignUp extends State<SignUp> {
                       SizedBox(height: 15),
                       TextField(
                         controller: _confirmPasswordController,
-                        obscureText: true,
+                        obscureText: _confirmPasswordVisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Confirm Password',
                           prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _confirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _confirmPasswordVisible =
+                                    !_confirmPasswordVisible;
+                              });
+                            },
+                          ),
                           isDense: true,
                           contentPadding: EdgeInsets.only(
                             left: 15,
