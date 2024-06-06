@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pillpal/MedicationDialog.dart';
 import 'package:pillpal/medication.dart';
 
 class HomePage extends StatelessWidget {
@@ -70,6 +71,18 @@ class HomePage extends StatelessWidget {
           SizedBox(height: 20),
           Expanded(child: MedicationPage())
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AddMedicationDialog();
+            },
+          );
+        },
+        backgroundColor: Colors.red,
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
