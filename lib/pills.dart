@@ -3,7 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pillpal/MedicationDialog.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pillpal/medication_dialog.dart';
 import 'package:pillpal/medication.dart';
 
 class PillInfoPage extends StatelessWidget {
@@ -16,7 +17,8 @@ class PillInfoPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           SizedBox(height: 5),
-          Expanded(child: MedicationPage(
+          Expanded(
+              child: MedicationPage(
             futureFunction: getAllMedication,
           ))
         ],
@@ -37,9 +39,9 @@ class PillInfoPage extends StatelessWidget {
   }
 }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getAllMedication() async {
-    return await FirebaseFirestore.instance
-        .collection('medication')
-        .where('UserId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .get();
-  }
+Future<QuerySnapshot<Map<String, dynamic>>> getAllMedication() async {
+  return await FirebaseFirestore.instance
+      .collection('medication')
+      .where('UserId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .get();
+}

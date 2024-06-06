@@ -4,20 +4,20 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pillpal/MedicationDialog.dart';
-
+import 'package:pillpal/medication_dialog.dart';
 
 class MedicationPage extends StatelessWidget {
   final Future<QuerySnapshot<Map<String, dynamic>>> Function() futureFunction;
 
   const MedicationPage({super.key, required this.futureFunction});
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
         future: futureFunction(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -41,8 +41,12 @@ class MedicationPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              med['Name'] + "_" + med['Dosage'].toString() + "mg",
-                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                              med['Name'] +
+                                  "_" +
+                                  med['Dosage'].toString() +
+                                  "mg",
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             if (med['Description'] != null)
                               Text(med['Description']),
@@ -55,7 +59,8 @@ class MedicationPage extends StatelessWidget {
                               ],
                             ),
                             if (med['Reminders'] != null)
-                              Text((med['Reminders'] as List<dynamic>).join(", ")),
+                              Text((med['Reminders'] as List<dynamic>)
+                                  .join(", ")),
                             Align(
                               alignment: Alignment.centerRight,
                               child: IconButton(
@@ -87,5 +92,3 @@ class MedicationPage extends StatelessWidget {
     );
   }
 }
-
-  
