@@ -16,7 +16,7 @@ class PillInfoPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
-          SizedBox(height: 20),
+          SizedBox(height: 5),
           Expanded(child: MedicationPage(
             futureFunction: getAllMedication,
           ))
