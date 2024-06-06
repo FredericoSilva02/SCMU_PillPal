@@ -65,6 +65,7 @@ class MedicationPage extends StatelessWidget {
                                     builder: (context) {
                                       return AddMedicationDialog(
                                         medData: med,
+                                        id: doc.id,
                                       );
                                     },
                                   );
@@ -85,21 +86,6 @@ class MedicationPage extends StatelessWidget {
     );
   }
 }
-
-  Future<DocumentReference> addMedication(String name, String description, num dosage, List<String> days, List<String> reminders, String start, String finish) {
-    return FirebaseFirestore.instance
-        .collection('medication')
-        .add(<String, dynamic>{
-      'Name': name,
-      'UserId': FirebaseAuth.instance.currentUser!.uid,
-      'Description': description,
-      'Dosage': dosage,
-      'Days': days,
-      'Reminders': reminders,
-      'Start': start,
-      'Finish': finish,
-    });
-  }
 
   DateTime getStartOfWeek() {
     DateTime now = DateTime.now();

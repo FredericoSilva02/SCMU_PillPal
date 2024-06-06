@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class AddMedicationDialog extends StatelessWidget {
   final Map<String, dynamic>? medData; // Optional medication data
+  final String? id;
 
-  const AddMedicationDialog({Key? key, this.medData}) : super(key: key);
+  const AddMedicationDialog({super.key, this.medData, this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +90,9 @@ class AddMedicationDialog extends StatelessWidget {
         TextButton(
           onPressed: () {
             if (medData != null) {
-              updateMedication(name, description);
+              updateMedication(userId, name, description, dosage, days, reminders, start, finish);
             } else {
-              createMedication(name, description);
+              createMedication(userId, name, description, dosage, days, reminders, start, finish);
             }
             Navigator.of(context).pop();
           },
@@ -101,12 +102,34 @@ class AddMedicationDialog extends StatelessWidget {
     );
   }
 
-  // Define methods to perform create and update tasks
-  void createMedication(String name, String description) {
-    // Perform create task
-  }
+void createMedication(String userId, String name, String description, num dosage, List<dynamic> days, List<dynamic> reminders, Timestamp start, Timestamp finish) {
+  FirebaseFirestore.instance
+    .collection('medication')
+    .add(<String, dynamic>{
+      'Name': name,
+      'UserId': userId,
+      'Description': description,
+      'Dosage': dosage,
+      'Days': days,
+      'Reminders': reminders,
+      'Start': start,
+      'Finish': finish,
+    });
+}
 
-  void updateMedication(String name, String description) {
-    // Perform update task
-  }
+  void updateMedication(String userId, String name, String description, num dosage, List<dynamic> days, List<dynamic> reminders, Timestamp start, Timestamp finish) {
+  FirebaseFirestore.instance
+    .collection('medication')
+    .doc(id)
+    .update(<String, dynamic>{
+      'Name': name,
+      'UserId': userId,
+      'Description': description,
+      'Dosage': dosage,
+      'Days': days,
+      'Reminders': reminders,
+      'Start': start,
+      'Finish': finish,
+    });
+}
 }
