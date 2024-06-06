@@ -16,11 +16,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPage extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _passwordVisible = false;
 
   Future signin() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
-      
+
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -71,11 +72,23 @@ class _LoginPage extends State<LoginPage> {
                       SizedBox(height: 15),
                       TextField(
                         controller: _passwordController,
-                        obscureText: true,
+                        obscureText: _passwordVisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Palavra-passe',
                           prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                          ),
                           isDense: true,
                           contentPadding: EdgeInsets.only(
                             left: 15,
