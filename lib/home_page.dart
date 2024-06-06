@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pillpal/medication.dart';       
+import 'package:pillpal/medication.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -22,8 +22,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Image.asset(
-              'lib/images/pillpal_image.png', 
-              height: 60, 
+              'lib/images/pillpal_image.png',
+              height: 60,
               fit: BoxFit.cover,
             ),
           ],
@@ -68,9 +68,8 @@ class HomePage extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20),
-          Expanded(child: 
-          MedicationPage())
-        ], 
+          Expanded(child: MedicationPage())
+        ],
       ),
     );
   }
