@@ -103,9 +103,11 @@ class AddMedicationDialog extends StatelessWidget {
   }
 
 void createMedication(String userId, String name, String description, num dosage, List<dynamic> days, List<dynamic> reminders, Timestamp start, Timestamp finish) {
+  String id = "${name}_${dosage}mg";
   FirebaseFirestore.instance
     .collection('medication')
-    .add(<String, dynamic>{
+    .doc(id)
+    .set(<String, dynamic>{
       'Name': name,
       'UserId': userId,
       'Description': description,

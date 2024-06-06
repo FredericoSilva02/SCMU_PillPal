@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: {
-        '/home': (context) => PillInfoPage(),
+        '/home': (context) => HomePage(),
       },
       ),
     );
