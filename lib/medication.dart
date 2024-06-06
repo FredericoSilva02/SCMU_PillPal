@@ -3,19 +3,20 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pillpal/MedicationDialog.dart';
 
 
 class MedicationPage extends StatelessWidget {
-  const MedicationPage({super.key});
+  final Future<QuerySnapshot<Map<String, dynamic>>> Function() futureFunction;
+
+  const MedicationPage({super.key, required this.futureFunction});
 
  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        future: getCurrentWeekMedications(),
+        future: futureFunction(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -87,28 +88,4 @@ class MedicationPage extends StatelessWidget {
   }
 }
 
-  DateTime getStartOfWeek() {
-    DateTime now = DateTime.now();
-    int currentDay = now.weekday;
-    DateTime startOfWeek = now.subtract(Duration(days: currentDay - 1));
-    return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
-  }
-
-  DateTime getEndOfWeek() {
-    DateTime now = DateTime.now();
-    int currentDay = now.weekday;
-    DateTime endOfWeek = now.add(Duration(days: 7 - currentDay));
-    return DateTime(endOfWeek.year, endOfWeek.month, endOfWeek.day, 23, 59, 59);
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getCurrentWeekMedications() async {
-    DateTime startOfWeek = getStartOfWeek();
-    DateTime endOfWeek = getEndOfWeek();
-
-    return await FirebaseFirestore.instance
-        .collection('medication')
-        .where('UserId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .where('Start', isGreaterThanOrEqualTo: startOfWeek)
-        .where('Finish', isLessThanOrEqualTo: endOfWeek)
-        .get();
-  }
+  

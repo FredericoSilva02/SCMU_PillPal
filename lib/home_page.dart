@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pillpal/MedicationDialog.dart';
@@ -69,7 +71,9 @@ class HomePage extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20),
-          Expanded(child: MedicationPage())
+          Expanded(child: MedicationPage(
+            futureFunction: getCurrentWeekMedications,
+          ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -87,3 +91,29 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+DateTime getStartOfWeek() {
+    DateTime now = DateTime.now();
+    int currentDay = now.weekday;
+    DateTime startOfWeek = now.subtract(Duration(days: currentDay - 1));
+    return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
+  }
+
+  DateTime getEndOfWeek() {
+    DateTime now = DateTime.now();
+    int currentDay = now.weekday;
+    DateTime endOfWeek = now.add(Duration(days: 7 - currentDay));
+    return DateTime(endOfWeek.year, endOfWeek.month, endOfWeek.day, 23, 59, 59);
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getCurrentWeekMedications() async {
+    DateTime startOfWeek = getStartOfWeek();
+    DateTime endOfWeek = getEndOfWeek();
+
+    return await FirebaseFirestore.instance
+        .collection('medication')
+        .where('UserId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where('Start', isGreaterThanOrEqualTo: startOfWeek)
+        .where('Finish', isLessThanOrEqualTo: endOfWeek)
+        .get();
+  }
