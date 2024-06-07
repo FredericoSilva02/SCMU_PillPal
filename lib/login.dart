@@ -72,7 +72,7 @@ class _LoginPage extends State<LoginPage> {
                       SizedBox(height: 15),
                       TextField(
                         controller: _passwordController,
-                        obscureText: _passwordVisible,
+                        obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Palavra-passe',

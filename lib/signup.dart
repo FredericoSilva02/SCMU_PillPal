@@ -142,7 +142,7 @@ class _SignUp extends State<SignUp> {
                       SizedBox(height: 15),
                       TextField(
                         controller: _confirmPasswordController,
-                        obscureText: _confirmPasswordVisible,
+                        obscureText: !_confirmPasswordVisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Confirm Password',
