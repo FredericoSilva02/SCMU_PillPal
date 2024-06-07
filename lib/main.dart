@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pillpal/User.dart';
 import 'package:pillpal/firebase_options.dart';
-import 'package:pillpal/home_page.dart';
-import 'package:pillpal/pills.dart';
 import 'app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: {
-        '/home': (context) => HomePage(),
+        '/home': (context) => UserPage(),
       },
       ),
     );

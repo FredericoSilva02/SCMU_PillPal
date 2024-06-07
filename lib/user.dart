@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pillpal/user_dialog.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
@@ -55,7 +56,8 @@ class UserInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
+      child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -67,18 +69,18 @@ class UserInfoCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${userData['firstName']} ${userData['lastName']}',
+                '${userData['Name']}',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 16),
-              _buildUserInfoRow('Gender', userData['gender']),
+              _buildUserInfoRow('Gender', userData['Gender']),
               _buildUserInfoRow('Birthday', userData['birthday']),
-              _buildUserInfoRow('Height', userData['height']),
-              _buildUserInfoRow('Weight', userData['weight']),
-              _buildUserInfoRow('Blood Group', userData['bloodGroup']),
+              _buildUserInfoRow('Height', userData['Height'].toString()),
+              _buildUserInfoRow('Weight', userData['Weigth'].toString()),
+              _buildUserInfoRow('Blood Group', userData['Blood Group']),
               SizedBox(height: 16),
               Text(
                 'Emergency Contacts',
@@ -94,15 +96,16 @@ class UserInfoCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.mail),
-                    onPressed: () {
-                      // Handle email action
-                    },
-                  ),
-                  IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      // Handle edit action
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return UserDialog(
+                            userData: userData,
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
@@ -111,7 +114,8 @@ class UserInfoCard extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 
   Widget _buildUserInfoRow(String label, dynamic value) {
@@ -131,10 +135,10 @@ class UserInfoCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(userData['name'] ?? 'N/A'),
-        Text(userData['phone'] ?? 'N/A'),
-        Text(userData['address'] ?? 'N/A'),
-        Text(userData['email'] ?? 'N/A'),
+        Text(userData['Name'] ?? 'N/A'),
+        Text(userData['Contact'] ?? 'N/A'),
+        Text(userData['Address'] ?? 'N/A'),
+        Text(userData['Email'] ?? 'N/A'),
       ],
     );
   }
@@ -143,7 +147,6 @@ class UserInfoCard extends StatelessWidget {
 //TODO change to userId, create User in SignUp
 Future<QuerySnapshot<Map<String, dynamic>>> getUserInfo() async {
   String? email = FirebaseAuth.instance.currentUser?.email;
-  if (email == null) throw FirebaseAuthException(code: 'no-current-user', message: 'No current user logged in');
   return await FirebaseFirestore.instance
       .collection('users')
       .where('Email', isEqualTo: email)
