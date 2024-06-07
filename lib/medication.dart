@@ -8,8 +8,9 @@ import 'package:pillpal/medication_dialog.dart';
 
 class MedicationPage extends StatelessWidget {
   final Future<QuerySnapshot<Map<String, dynamic>>> Function() futureFunction;
+  final Function() onDialogClose; 
 
-  const MedicationPage({super.key, required this.futureFunction});
+  const MedicationPage({super.key, required this.futureFunction, required this.onDialogClose});
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +70,7 @@ class MedicationPage extends StatelessWidget {
                                       return AddMedicationDialog(
                                         medData: med,
                                         id: doc.id,
+                                        onDialogClose: onDialogClose,
                                       );
                                     },
                                   );

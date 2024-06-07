@@ -8,19 +8,32 @@ import 'package:pillpal/medication.dart';
 import 'package:pillpal/navegation_bar.dart';
 
 class SearchPage extends StatelessWidget {
+  
   const SearchPage({super.key});
+
+  void _reloadPage(BuildContext context) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => this));
+  }
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           SizedBox(height: 5),
           Expanded(
-              child: MedicationPage(
-            futureFunction: getAllMedication,
-          ))
+            child: MedicationPage(
+              futureFunction: getAllMedication,
+              onDialogClose: () {
+                  _reloadPage(context);
+                },
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -28,7 +41,11 @@ class SearchPage extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return AddMedicationDialog();
+              return AddMedicationDialog(
+                onDialogClose: () {
+                  _reloadPage(context);
+                },
+              );
             },
           );
         },

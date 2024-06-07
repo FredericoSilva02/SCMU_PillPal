@@ -29,22 +29,22 @@ class _NavBarState extends State<NavBar> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'home',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'search',
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'users',
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
         onTap: (value) {
           {
             _selectedIndex = value;
-            navigateToIndex(context);  // Update _selectedIndex on tap
+            navigateToIndex(context);
           }
         },
       );

@@ -9,7 +9,14 @@ import 'package:pillpal/medication.dart';
 import 'package:pillpal/navegation_bar.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
+
+  void _reloadPage(BuildContext context) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => this));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +83,9 @@ class HomePage extends StatelessWidget {
           Expanded(
             child: MedicationPage(
               futureFunction: getCurrentWeekMedications,
+              onDialogClose: () {
+                  _reloadPage(context);
+                },
             ),
           ),
         ],
@@ -85,7 +95,11 @@ class HomePage extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return AddMedicationDialog();
+              return AddMedicationDialog(
+                onDialogClose: () {
+                  _reloadPage(context);
+                },
+              );
             },
           );
         },

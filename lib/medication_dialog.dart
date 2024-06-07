@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class AddMedicationDialog extends StatefulWidget {
   final Map<String, dynamic>? medData; // Optional medication data
   final String? id;
+  final Function()? onDialogClose; 
 
-  const AddMedicationDialog({super.key, this.medData, this.id});
+  const AddMedicationDialog({super.key, this.medData, this.id, this.onDialogClose});
 
   @override
   _AddMedicationDialogState createState() => _AddMedicationDialogState();
@@ -163,7 +164,7 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
     );
   }
 
-  void createMedication(
+  Future<void> createMedication(
       String userId,
       String name,
       String description,
@@ -171,8 +172,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       List<dynamic> days,
       List<dynamic> reminders,
       Timestamp start,
-      Timestamp finish) {
-    FirebaseFirestore.instance.collection('medication').add(<String, dynamic>{
+      Timestamp finish) async {
+    await FirebaseFirestore.instance.collection('medication').add(<String, dynamic>{
       'Name': name,
       'UserId': userId,
       'Description': description,
@@ -182,9 +183,11 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       'Start': start,
       'Finish': finish,
     });
+
+    widget.onDialogClose?.call();
   }
 
-  void updateMedication(
+  Future<void> updateMedication(
       String userId,
       String name,
       String description,
@@ -192,8 +195,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       List<dynamic> days,
       List<dynamic> reminders,
       Timestamp start,
-      Timestamp finish) {
-    FirebaseFirestore.instance
+      Timestamp finish) async {
+    await FirebaseFirestore.instance
         .collection('medication')
         .doc(widget.id)
         .update(<String, dynamic>{
@@ -206,5 +209,7 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       'Start': start,
       'Finish': finish,
     });
+
+    widget.onDialogClose?.call();
   }
 }
