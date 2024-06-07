@@ -10,6 +10,13 @@ import 'package:intl/intl.dart';
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
 
+  void _reloadPage(BuildContext context) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => this));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +50,12 @@ class UserPage extends StatelessWidget {
             return Center(child: Text('No user data found'));
           } else {
             var userData = snapshot.data!.docs.first.data();
-            return UserInfoCard(userData: userData);
+            return UserInfoCard(
+              userData: userData,
+              onDialogClose: () {
+                  _reloadPage(context);
+                },
+              );
           }
         },
       ),
@@ -53,8 +65,9 @@ class UserPage extends StatelessWidget {
 
 class UserInfoCard extends StatelessWidget {
   final Map<String, dynamic> userData;
+  final Function()? onDialogClose; 
 
-  const UserInfoCard({required this.userData});
+  const UserInfoCard({required this.userData, this.onDialogClose});
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +122,7 @@ class UserInfoCard extends StatelessWidget {
                         builder: (context) {
                           return UserDialog(
                             userData: userData,
+                            onDialogClose: onDialogClose,
                           );
                         },
                       );

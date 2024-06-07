@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddMedicationDialog extends StatefulWidget {
-  final Map<String, dynamic>? medData; // Optional medication data
+  final Map<String, dynamic>? medData; 
   final String? id;
-  final Function()? onDialogClose; 
+  final Function() onDialogClose; 
 
-  const AddMedicationDialog({super.key, this.medData, this.id, this.onDialogClose});
+  const AddMedicationDialog({super.key, this.medData, this.id, required this.onDialogClose});
 
   @override
   _AddMedicationDialogState createState() => _AddMedicationDialogState();
@@ -184,7 +184,7 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       'Finish': finish,
     });
 
-    widget.onDialogClose?.call();
+    widget.onDialogClose.call();
   }
 
   Future<void> updateMedication(
@@ -210,6 +210,6 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       'Finish': finish,
     });
 
-    widget.onDialogClose?.call();
+    widget.onDialogClose.call();
   }
 }

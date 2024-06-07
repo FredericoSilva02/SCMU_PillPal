@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class UserDialog extends StatefulWidget {
   final Map<String, dynamic>? userData; 
+  final Function()? onDialogClose; 
 
-  const UserDialog({super.key, this.userData});
+  const UserDialog({super.key, this.userData, this.onDialogClose});
 
   @override
   _UserDialogState createState() => _UserDialogState();
@@ -149,7 +150,7 @@ class _UserDialogState extends State<UserDialog> {
     );
   }
 
-  void updateUser(
+  Future<void> updateUser(
       String userId,
       String name,
       String contact,
@@ -159,8 +160,8 @@ class _UserDialogState extends State<UserDialog> {
       String bloodGroup,
       num heigth,
       num weigth,
-      Timestamp birthday) {
-    FirebaseFirestore.instance
+      Timestamp birthday) async {
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .update(<String, dynamic>{
@@ -174,5 +175,7 @@ class _UserDialogState extends State<UserDialog> {
       'Height': heigth,
       'Weight': weigth,
     });
+
+    widget.onDialogClose?.call();
   }
 }
