@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pillpal/navegation_bar.dart';
 import 'package:pillpal/user_dialog.dart';
+import 'package:intl/intl.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
@@ -56,7 +58,8 @@ class UserInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Scaffold(
+      body:  SingleChildScrollView(
       child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Card(
@@ -77,9 +80,9 @@ class UserInfoCard extends StatelessWidget {
               ),
               SizedBox(height: 16),
               _buildUserInfoRow('Gender', userData['Gender']),
-              _buildUserInfoRow('Birthday', userData['birthday']),
+              _buildUserInfoRow('Birthday', DateFormat('dd-MM-yyyy').format(userData['Birthday'].toDate())),
               _buildUserInfoRow('Height', userData['Height'].toString()),
-              _buildUserInfoRow('Weight', userData['Weigth'].toString()),
+              _buildUserInfoRow('Weight', userData['Weight'].toString()),
               _buildUserInfoRow('Blood Group', userData['Blood Group']),
               SizedBox(height: 16),
               Text(
@@ -90,7 +93,10 @@ class UserInfoCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
-              _buildEmergencyContacts(userData),
+              _buildUserInfoRow('Name', userData['Name']),
+              _buildUserInfoRow('Contact', userData['Contact']),
+              _buildUserInfoRow('Address', userData['Address']),
+              _buildUserInfoRow('Email', userData['Email']),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -115,8 +121,10 @@ class UserInfoCard extends StatelessWidget {
         ),
       ),
     ),
-  );
-  }
+  ),
+  bottomNavigationBar: NavBar(),
+);
+}
 
   Widget _buildUserInfoRow(String label, dynamic value) {
     return Row(

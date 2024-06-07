@@ -41,12 +41,9 @@ class MedicationPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              med['Name'] +
-                                  "_" +
-                                  med['Dosage'].toString() +
-                                  "mg",
+                              med['Name'] + "_" + med['Dosage'].toString() + "mg",
                               style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
+                              fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             if (med['Description'] != null)
                               Text(med['Description']),

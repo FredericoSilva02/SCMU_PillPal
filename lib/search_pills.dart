@@ -5,9 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pillpal/medication_dialog.dart';
 import 'package:pillpal/medication.dart';
+import 'package:pillpal/navegation_bar.dart';
 
-class PillInfoPage extends StatelessWidget {
-  const PillInfoPage({super.key});
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class PillInfoPage extends StatelessWidget {
         backgroundColor: Colors.red,
         child: Icon(Icons.add, color: Colors.white),
       ),
+      bottomNavigationBar: NavBar(),
     );
   }
 }

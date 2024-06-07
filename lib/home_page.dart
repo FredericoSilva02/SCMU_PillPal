@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pillpal/medication_dialog.dart';
 import 'package:pillpal/medication.dart';
+import 'package:pillpal/navegation_bar.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,8 @@ class HomePage extends StatelessWidget {
             Text(
               'Your Week',
               style: TextStyle(
-                fontSize: 48, // Set the desired font size
-                fontWeight: FontWeight.bold, // Optionally set the font weight
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Image.asset(
@@ -48,7 +49,7 @@ class HomePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //TODO: make it soo its red on days the user has pills to take
+              //TODO: make it so it's red on days the user has pills to take
               SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
               SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
               SvgPicture.asset('lib/images/graypillSvg.svg', height: 24),
@@ -73,9 +74,10 @@ class HomePage extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Expanded(
-              child: MedicationPage(
-            futureFunction: getCurrentWeekMedications,
-          ))
+            child: MedicationPage(
+              futureFunction: getCurrentWeekMedications,
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -90,6 +92,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.red,
         child: Icon(Icons.add, color: Colors.white),
       ),
+      bottomSheet: NavBar(),
     );
   }
 }

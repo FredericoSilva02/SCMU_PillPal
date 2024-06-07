@@ -95,12 +95,6 @@ class _UserDialogState extends State<UserDialog> {
               controller: _genderController,
               decoration: InputDecoration(labelText: 'Gender'),
             ),
-            ListTile(
-              title: Text(
-                  "Birthday: ${_birthday != null ? _birthday!.toLocal().toString().split(' ')[0] : 'Select a date'}"),
-              trailing: Icon(Icons.calendar_today),
-              onTap: () => _selectDate(context),
-            ),
             TextField(
               controller: _heightController,
               decoration: InputDecoration(labelText: 'Height'),
@@ -114,6 +108,12 @@ class _UserDialogState extends State<UserDialog> {
             TextField(
               controller: _bloodGroupController,
               decoration: InputDecoration(labelText: 'Blood Group'),
+            ),      
+            ListTile(
+              title: Text(
+                  "Birthday: ${_birthday != null ? _birthday!.toLocal().toString().split(' ')[0] : 'Select a date'}"),
+              trailing: Icon(Icons.calendar_today),
+              onTap: () => _selectDate(context),
             ),
           ],
         ),
