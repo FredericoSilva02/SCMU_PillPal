@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.red,
         child: Icon(Icons.add, color: Colors.white),
       ),
-      bottomSheet: NavBar(),
+      bottomNavigationBar: NavBar(),
     );
   }
 }

@@ -25,8 +25,7 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
+      return BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -48,7 +47,6 @@ class _NavBarState extends State<NavBar> {
             navigateToIndex(context);  // Update _selectedIndex on tap
           }
         },
-      ),
-    );
+      );
   }
 }
