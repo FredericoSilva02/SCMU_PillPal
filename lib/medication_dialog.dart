@@ -173,7 +173,9 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       List<dynamic> reminders,
       Timestamp start,
       Timestamp finish) async {
-    await FirebaseFirestore.instance.collection('medication').add(<String, dynamic>{
+    await FirebaseFirestore.instance
+      .collection('medication')
+      .add(<String, dynamic>{
       'Name': name,
       'UserId': userId,
       'Description': description,
