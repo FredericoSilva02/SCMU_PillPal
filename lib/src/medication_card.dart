@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:pillpal/src/medication_dialog.dart';
 
 class MedicationPage extends StatelessWidget {
+  final bool isHomePage;
   final Future<QuerySnapshot<Map<String, dynamic>>> Function() futureFunction;
   final Function() onDialogClose;
 
   const MedicationPage(
-      {super.key, required this.futureFunction, required this.onDialogClose});
+      {super.key,
+      this.isHomePage = true,
+      required this.futureFunction,
+      required this.onDialogClose});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,13 @@ class MedicationPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No medication for this week :)'));
+            if (isHomePage) {
+              return const Center(
+                  child: Text('No medication for this week :)'));
+            } else {
+              return const Center(
+                  child: Text('No medication with that name :)'));
+            }
           } else {
             return SingleChildScrollView(
               child: Column(

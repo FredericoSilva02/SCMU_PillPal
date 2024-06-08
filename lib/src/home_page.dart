@@ -33,62 +33,69 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text(
-              'Your Week',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
+        title: Padding(
+          // padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Your Week',
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Image.asset(
-              'lib/images/pillpal_image.png',
-              height: 75,
-              fit: BoxFit.cover,
-            ),
-          ],
+              Image.asset(
+                'lib/images/pillpal_image.png',
+                height: 75,
+                fit: BoxFit.cover,
+              ),
+            ],
+          ),
         ),
       ),
-      body: FutureBuilder<Map<int, bool>>(
-        future: _medicationDays,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error loading medications'));
-          } else {
-            Map<int, bool>? medicationDays = snapshot.data;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _buildDayColumn('Mon', medicationDays?[0] ?? false),
-                    _buildDayColumn('Tue', medicationDays?[1] ?? false),
-                    _buildDayColumn('Wed', medicationDays?[2] ?? false),
-                    _buildDayColumn('Thu', medicationDays?[3] ?? false),
-                    _buildDayColumn('Fri', medicationDays?[4] ?? false),
-                    _buildDayColumn('Sat', medicationDays?[5] ?? false),
-                    _buildDayColumn('Sun', medicationDays?[6] ?? false),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: MedicationPage(
-                    futureFunction: _getCurrentWeekMedications,
-                    onDialogClose: () {
-                      _loadMedicationDays();
-                    },
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        child: FutureBuilder<Map<int, bool>>(
+          future: _medicationDays,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Error loading medications'));
+            } else {
+              Map<int, bool>? medicationDays = snapshot.data;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildDayColumn('Mon', medicationDays?[0] ?? false),
+                      _buildDayColumn('Tue', medicationDays?[1] ?? false),
+                      _buildDayColumn('Wed', medicationDays?[2] ?? false),
+                      _buildDayColumn('Thu', medicationDays?[3] ?? false),
+                      _buildDayColumn('Fri', medicationDays?[4] ?? false),
+                      _buildDayColumn('Sat', medicationDays?[5] ?? false),
+                      _buildDayColumn('Sun', medicationDays?[6] ?? false),
+                    ],
                   ),
-                ),
-              ],
-            );
-          }
-        },
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: MedicationPage(
+                      futureFunction: _getCurrentWeekMedications,
+                      onDialogClose: () {
+                        _loadMedicationDays();
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
