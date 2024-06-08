@@ -1,4 +1,3 @@
-
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
@@ -19,34 +18,58 @@ class _NavBarState extends State<NavBar> {
     } else if (_selectedIndex == 1) {
       Navigator.pushReplacementNamed(context, '/search');
     } else if (_selectedIndex == 2) {
+      Navigator.pushReplacementNamed(context, '/calendar');
+    } else if (_selectedIndex == 3) {
       Navigator.pushReplacementNamed(context, '/user');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-      return BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+    return Container(
+      height: 95,
+      child: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Transform.scale(
+              scale: 1.2, // Increase scale for the home icon
+              child: Icon(Icons.home),
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Transform.scale(
+              scale: 1.2, // Increase scale for the search icon
+              child: Icon(Icons.search),
+            ),
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Transform.scale(
+              scale: 1.2, // Increase scale for the profile icon
+              child: Icon(Icons.calendar_month),
+            ),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Transform.scale(
+              scale: 1.2, // Increase scale for the profile icon
+              child: Icon(Icons.person),
+            ),
             label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.red,
+        backgroundColor: Colors.red.shade50, // Light shade of red
         onTap: (value) {
-          {
+          setState(() {
             _selectedIndex = value;
             navigateToIndex(context);
-          }
+          });
         },
-      );
+        type: BottomNavigationBarType.fixed,
+      ),
+    );
   }
 }

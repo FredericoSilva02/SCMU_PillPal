@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pillpal/User.dart';
-import 'package:pillpal/firebase_options.dart';
-import 'package:pillpal/home_page.dart';
-import 'package:pillpal/search_pills.dart';
+import 'package:pillpal/src/user.dart';
+import 'package:pillpal/src/firebase_options.dart';
+import 'package:pillpal/src/home_page.dart';
+import 'package:pillpal/src/search_pills.dart';
 import 'app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +25,6 @@ void main() async {
 // Change MaterialApp to MaterialApp.router and add the routerConfig
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +36,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
-      ),
-      home: LoginPage(),
-      routes: {
-        '/home': (context) => HomePage(),
-        '/user': (context) => UserPage(),
-        '/search': (context) => SearchPage(),
-      },
+        ),
+        home: LoginPage(),
+        routes: {
+          '/home': (context) => HomePage(),
+          '/user': (context) => UserPage(),
+          '/search': (context) => SearchPage(),
+          // TODO: Add the calendar route
+        },
       ),
     );
   }

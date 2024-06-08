@@ -3,32 +3,75 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pillpal/home_page.dart';
-import 'package:pillpal/signup.dart';
+import 'package:pillpal/src/login.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<SignUp> createState() => _SignUp();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _SignUp extends State<SignUp> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _passwordVisible = false;
+  bool _confirmPasswordVisible = false;
 
-  Future signin() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text, password: _passwordController.text);
+  Future<void> signup() async {
+    String password = _passwordController.text.trim();
+    String confirmPassword = _confirmPasswordController.text.trim();
 
-    Navigator.pushReplacementNamed(context, '/home');
+    if (password == confirmPassword) {
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: password,
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
+      } catch (e) {
+        // Handle sign-up error
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Error"),
+            content: Text(e.toString()),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      // Handle password mismatch error
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Error"),
+          content: Text("Passwords do not match."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -42,11 +85,11 @@ class _LoginPage extends State<LoginPage> {
             children: <Widget>[
               Image.asset(
                 'lib/images/pillpal_image.png',
-                height: 300,
+                height: 250,
                 fit: BoxFit.cover,
               ),
               Text(
-                'Login',
+                'Sign Up',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 15),
@@ -65,7 +108,7 @@ class _LoginPage extends State<LoginPage> {
                           isDense: true,
                           contentPadding: EdgeInsets.only(
                             left: 15,
-                          ), // Adjust padding as needed
+                          ),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
@@ -75,8 +118,7 @@ class _LoginPage extends State<LoginPage> {
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Palavra-passe',
-                          prefixIcon: Icon(Icons.lock),
+                          labelText: 'Password',
                           suffixIcon: IconButton(
                             icon: Icon(
                               _passwordVisible
@@ -89,6 +131,35 @@ class _LoginPage extends State<LoginPage> {
                               });
                             },
                           ),
+                          prefixIcon: Icon(Icons.lock),
+                          isDense: true,
+                          contentPadding: EdgeInsets.only(
+                            left: 15,
+                          ),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                      SizedBox(height: 15),
+                      TextField(
+                        controller: _confirmPasswordController,
+                        obscureText: !_confirmPasswordVisible,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Confirm Password',
+                          prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _confirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _confirmPasswordVisible =
+                                    !_confirmPasswordVisible;
+                              });
+                            },
+                          ),
                           isDense: true,
                           contentPadding: EdgeInsets.only(
                             left: 15,
@@ -98,36 +169,13 @@ class _LoginPage extends State<LoginPage> {
                       ),
                       SizedBox(height: 25),
                       ElevatedButton(
-                        onPressed: () => signin()
-                            .then((value) => {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()),
-                                  )
-                                })
-                            .onError((error, stackTrace) => {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                            title: Text("Erro"),
-                                            content: Text(
-                                                "Email ou palavra-passe incorretos"),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: const Text('Ok'))
-                                            ],
-                                          ))
-                                }),
+                        onPressed: signup,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           minimumSize: Size(double.infinity, 50),
                         ),
-                        child: Text('Login'),
+                        child: Text('Sign Up'),
                       ),
                     ],
                   ),
@@ -135,17 +183,18 @@ class _LoginPage extends State<LoginPage> {
               ),
               RichText(
                 text: TextSpan(
-                  text: "Don't have an account? ",
+                  text: "Already have an account? ",
                   style: TextStyle(color: Colors.black),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'Sign up',
+                      text: 'Login',
                       style: TextStyle(color: Colors.red),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignUp()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           );
                         },
                     ),

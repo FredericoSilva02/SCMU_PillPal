@@ -3,21 +3,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pillpal/medication_dialog.dart';
-import 'package:pillpal/medication.dart';
-import 'package:pillpal/navegation_bar.dart';
+import 'package:pillpal/src/medication_dialog.dart';
+import 'package:pillpal/src/medication_card.dart';
+import 'package:pillpal/src/navegation_bar.dart';
 
 class SearchPage extends StatelessWidget {
-  
   const SearchPage({super.key});
 
   void _reloadPage(BuildContext context) {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => this));
+        context, MaterialPageRoute(builder: (BuildContext context) => this));
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +26,8 @@ class SearchPage extends StatelessWidget {
             child: MedicationPage(
               futureFunction: getAllMedication,
               onDialogClose: () {
-                  _reloadPage(context);
-                },
+                _reloadPage(context);
+              },
             ),
           ),
         ],

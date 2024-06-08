@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pillpal/navegation_bar.dart';
-import 'package:pillpal/user_dialog.dart';
+import 'package:pillpal/src/navegation_bar.dart';
+import 'package:pillpal/src/user_dialog.dart';
 import 'package:intl/intl.dart';
 
 class UserPage extends StatelessWidget {
@@ -12,9 +12,7 @@ class UserPage extends StatelessWidget {
 
   void _reloadPage(BuildContext context) {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => this));
+        context, MaterialPageRoute(builder: (BuildContext context) => this));
   }
 
   @override
@@ -27,8 +25,8 @@ class UserPage extends StatelessWidget {
             Text(
               'Medical info',
               style: TextStyle(
-                fontSize: 48, 
-                fontWeight: FontWeight.bold, 
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
               ),
             ),
             Image.asset(
@@ -41,7 +39,8 @@ class UserPage extends StatelessWidget {
       ),
       body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
         future: getUserInfo(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -53,9 +52,9 @@ class UserPage extends StatelessWidget {
             return UserInfoCard(
               userData: userData,
               onDialogClose: () {
-                  _reloadPage(context);
-                },
-              );
+                _reloadPage(context);
+              },
+            );
           }
         },
       ),
@@ -65,80 +64,83 @@ class UserPage extends StatelessWidget {
 
 class UserInfoCard extends StatelessWidget {
   final Map<String, dynamic> userData;
-  final Function()? onDialogClose; 
+  final Function()? onDialogClose;
 
   const UserInfoCard({required this.userData, this.onDialogClose});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SingleChildScrollView(
-      child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${userData['Name']}',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 16),
-              _buildUserInfoRow('Gender', userData['Gender']),
-              _buildUserInfoRow('Birthday', DateFormat('dd-MM-yyyy').format(userData['Birthday'].toDate())),
-              _buildUserInfoRow('Height', userData['Height'].toString()),
-              _buildUserInfoRow('Weight', userData['Weight'].toString()),
-              _buildUserInfoRow('Blood Group', userData['Blood Group']),
-              SizedBox(height: 16),
-              Text(
-                'Emergency Contacts',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              _buildUserInfoRow('Name', userData['Name']),
-              _buildUserInfoRow('Contact', userData['Contact']),
-              _buildUserInfoRow('Address', userData['Address']),
-              _buildUserInfoRow('Email', userData['Email']),
-              SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.edit),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return UserDialog(
-                            userData: userData,
-                            onDialogClose: onDialogClose,
+                  Text(
+                    '${userData['Name']}',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  _buildUserInfoRow('Gender', userData['Gender']),
+                  _buildUserInfoRow(
+                      'Birthday',
+                      DateFormat('dd-MM-yyyy')
+                          .format(userData['Birthday'].toDate())),
+                  _buildUserInfoRow('Height', userData['Height'].toString()),
+                  _buildUserInfoRow('Weight', userData['Weight'].toString()),
+                  _buildUserInfoRow('Blood Group', userData['Blood Group']),
+                  SizedBox(height: 16),
+                  Text(
+                    'Emergency Contacts',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  _buildUserInfoRow('Name', userData['Name']),
+                  _buildUserInfoRow('Contact', userData['Contact']),
+                  _buildUserInfoRow('Address', userData['Address']),
+                  _buildUserInfoRow('Email', userData['Email']),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return UserDialog(
+                                userData: userData,
+                                onDialogClose: onDialogClose,
+                              );
+                            },
                           );
                         },
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
-  ),
-  bottomNavigationBar: NavBar(),
-);
-}
+      bottomNavigationBar: NavBar(),
+    );
+  }
 
   Widget _buildUserInfoRow(String label, dynamic value) {
     return Row(
@@ -175,7 +177,8 @@ Future<QuerySnapshot<Map<String, dynamic>>> getUserInfo() async {
       .get();
 }
 
-Future<QuerySnapshot<Map<String, dynamic>>> getCareTakerInfo(String caretakerId) async {
+Future<QuerySnapshot<Map<String, dynamic>>> getCareTakerInfo(
+    String caretakerId) async {
   return await FirebaseFirestore.instance
       .collection('users')
       .where('Name', isEqualTo: caretakerId)
