@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pillpal/src/medication_dialog.dart';
@@ -28,55 +27,10 @@ class MedicationPage extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: snapshot.data!.docs.map((doc) {
-                  var med = doc.data();
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            med['Name'] + "_" + med['Dosage'].toString() + "mg",
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
-                          if (med['Description'] != null)
-                            Text(med['Description']),
-                          const SizedBox(height: 10),
-                          const Row(
-                            children: <Widget>[
-                              Icon(Icons.notifications),
-                              SizedBox(width: 10),
-                              Text("Reminders"),
-                            ],
-                          ),
-                          if (med['Reminders'] != null)
-                            Text(
-                                (med['Reminders'] as List<dynamic>).join(", ")),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AddMedicationDialog(
-                                      medData: med,
-                                      id: doc.id,
-                                      onDialogClose: onDialogClose,
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                children: snapshot.data!.docs.map((document) {
+                  var medicationData = document.data();
+                  return _buildMedicationCard(
+                      context, medicationData, document.id);
                 }).toList(),
               ),
             );
@@ -84,5 +38,85 @@ class MedicationPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _buildMedicationCard(BuildContext context,
+      Map<String, dynamic> medicationData, String documentId) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Card(
+        color: Colors.red.shade50,
+        child: Stack(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    medicationData['Name'],
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    '${medicationData['Dosage']} mg',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                  if (medicationData['Description'] != null &&
+                      medicationData['Description'] != '') ...[
+                    const SizedBox(height: 10),
+                    Text(medicationData['Description']),
+                  ],
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Days",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  if (medicationData['Days'] != null)
+                    Text(_convertDaysToString(
+                        medicationData['Days'] as List<dynamic>)),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Reminders",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  if (medicationData['Reminders'] != null)
+                    Text((medicationData['Reminders'] as List<dynamic>)
+                        .join(", ")),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 15,
+              right: 15,
+              child: IconButton(
+                icon: const Icon(Icons.edit),
+                color: Colors.red,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AddMedicationDialog(
+                        medData: medicationData,
+                        id: documentId,
+                        onDialogClose: onDialogClose,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _convertDaysToString(List<dynamic> days) {
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return days.map((day) => dayNames[day as int]).join(", ");
   }
 }
