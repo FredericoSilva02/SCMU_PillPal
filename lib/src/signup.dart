@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -31,19 +29,19 @@ class _SignUp extends State<SignUp> {
         );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       } catch (e) {
         // Handle sign-up error
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Error"),
+            title: const Text("Error"),
             content: Text(e.toString()),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text("OK"),
+                child: const Text("OK"),
               ),
             ],
           ),
@@ -54,12 +52,12 @@ class _SignUp extends State<SignUp> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Error"),
-          content: Text("Passwords do not match."),
+          title: const Text("Error"),
+          content: const Text("Passwords do not match."),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         ),
@@ -88,11 +86,11 @@ class _SignUp extends State<SignUp> {
                 height: 250,
                 fit: BoxFit.cover,
               ),
-              Text(
+              const Text(
                 'Sign Up',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: SizedBox(
@@ -101,7 +99,7 @@ class _SignUp extends State<SignUp> {
                     children: [
                       TextField(
                         controller: _emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
@@ -112,12 +110,12 @@ class _SignUp extends State<SignUp> {
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       TextField(
                         controller: _passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           labelText: 'Password',
                           suffixIcon: IconButton(
                             icon: Icon(
@@ -131,22 +129,22 @@ class _SignUp extends State<SignUp> {
                               });
                             },
                           ),
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock),
                           isDense: true,
-                          contentPadding: EdgeInsets.only(
+                          contentPadding: const EdgeInsets.only(
                             left: 15,
                           ),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       TextField(
                         controller: _confirmPasswordController,
                         obscureText: !_confirmPasswordVisible,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           labelText: 'Confirm Password',
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _confirmPasswordVisible
@@ -161,21 +159,21 @@ class _SignUp extends State<SignUp> {
                             },
                           ),
                           isDense: true,
-                          contentPadding: EdgeInsets.only(
+                          contentPadding: const EdgeInsets.only(
                             left: 15,
                           ),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       ElevatedButton(
                         onPressed: signup,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
-                          minimumSize: Size(double.infinity, 50),
+                          minimumSize: const Size(double.infinity, 50),
                         ),
-                        child: Text('Sign Up'),
+                        child: const Text('Sign Up'),
                       ),
                     ],
                   ),
@@ -184,17 +182,17 @@ class _SignUp extends State<SignUp> {
               RichText(
                 text: TextSpan(
                   text: "Already have an account? ",
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Login',
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()),
+                                builder: (context) => const LoginPage()),
                           );
                         },
                     ),

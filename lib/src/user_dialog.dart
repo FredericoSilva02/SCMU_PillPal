@@ -1,17 +1,15 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserDialog extends StatefulWidget {
-  final Map<String, dynamic>? userData; 
-  final Function()? onDialogClose; 
+  final Map<String, dynamic>? userData;
+  final Function()? onDialogClose;
 
   const UserDialog({super.key, this.userData, this.onDialogClose});
 
   @override
-  _UserDialogState createState() => _UserDialogState();
+  State<UserDialog> createState() => _UserDialogState();
 }
 
 class _UserDialogState extends State<UserDialog> {
@@ -39,11 +37,17 @@ class _UserDialogState extends State<UserDialog> {
         ? (widget.userData!['Birthday'] as Timestamp).toDate()
         : null;
     _heightController = TextEditingController(
-        text: widget.userData != null ? widget.userData!['Heigth'].toString() : '');
+        text: widget.userData != null
+            ? widget.userData!['Heigth'].toString()
+            : '');
     _weightController = TextEditingController(
-        text: widget.userData != null ? widget.userData!['Weight'].toString() : '');
+        text: widget.userData != null
+            ? widget.userData!['Weight'].toString()
+            : '');
     _bloodGroupController = TextEditingController(
-        text: widget.userData != null ? widget.userData!['Blood Group'].toString() : '');
+        text: widget.userData != null
+            ? widget.userData!['Blood Group'].toString()
+            : '');
   }
 
   @override
@@ -75,8 +79,7 @@ class _UserDialogState extends State<UserDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title:
-          const Text('Edit medical info'),
+      title: const Text('Edit medical info'),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,38 +87,38 @@ class _UserDialogState extends State<UserDialog> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: _contactController,
-              decoration: InputDecoration(labelText: 'Contact'),
+              decoration: const InputDecoration(labelText: 'Contact'),
             ),
             TextField(
               controller: _addressController,
-              decoration: InputDecoration(labelText: 'Address'),
+              decoration: const InputDecoration(labelText: 'Address'),
             ),
             TextField(
               controller: _genderController,
-              decoration: InputDecoration(labelText: 'Gender'),
+              decoration: const InputDecoration(labelText: 'Gender'),
             ),
             TextField(
               controller: _heightController,
-              decoration: InputDecoration(labelText: 'Height'),
+              decoration: const InputDecoration(labelText: 'Height'),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _weightController,
-              decoration: InputDecoration(labelText: 'Weight'),
+              decoration: const InputDecoration(labelText: 'Weight'),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _bloodGroupController,
-              decoration: InputDecoration(labelText: 'Blood Group'),
-            ),      
+              decoration: const InputDecoration(labelText: 'Blood Group'),
+            ),
             ListTile(
               title: Text(
                   "Birthday: ${_birthday != null ? _birthday!.toLocal().toString().split(' ')[0] : 'Select a date'}"),
-              trailing: Icon(Icons.calendar_today),
+              trailing: const Icon(Icons.calendar_today),
               onTap: () => _selectDate(context),
             ),
           ],
@@ -126,7 +129,7 @@ class _UserDialogState extends State<UserDialog> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
@@ -143,7 +146,8 @@ class _UserDialogState extends State<UserDialog> {
                 ? Timestamp.fromDate(_birthday!)
                 : Timestamp.now();
 
-            updateUser(userId, name, contact, address, email, gender, bloodGroup, heigth, weigth, birthday);
+            updateUser(userId, name, contact, address, email, gender,
+                bloodGroup, heigth, weigth, birthday);
             Navigator.of(context).pop();
           },
           child: Text(widget.userData != null ? 'Update' : 'Create'),

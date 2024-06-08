@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,12 +19,11 @@ class MedicationPage extends StatelessWidget {
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            print('Error: ${snapshot.error}');
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('Sem medicação'));
+            return const Center(child: Text('No medication for this week :)'));
           } else {
             return SingleChildScrollView(
               child: Column(
@@ -42,13 +39,13 @@ class MedicationPage extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             med['Name'] + "_" + med['Dosage'].toString() + "mg",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                           if (med['Description'] != null)
                             Text(med['Description']),
-                          SizedBox(height: 10),
-                          Row(
+                          const SizedBox(height: 10),
+                          const Row(
                             children: <Widget>[
                               Icon(Icons.notifications),
                               SizedBox(width: 10),
@@ -61,7 +58,7 @@ class MedicationPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.bottomRight,
                             child: IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               onPressed: () {
                                 showDialog(
                                   context: context,

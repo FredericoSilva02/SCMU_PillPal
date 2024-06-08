@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pillpal/src/user.dart';
 import 'package:pillpal/src/firebase_options.dart';
@@ -19,7 +17,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // Change MaterialApp to MaterialApp.router and add the routerConfig
@@ -37,11 +35,11 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
         ),
-        home: LoginPage(),
+        home: const LoginPage(),
         routes: {
-          '/home': (context) => HomePage(),
-          '/user': (context) => UserPage(),
-          '/search': (context) => SearchPage(),
+          '/home': (context) => const HomePage(),
+          '/user': (context) => const UserPage(),
+          '/search': (context) => const SearchPage(),
           // TODO: Add the calendar route
         },
       ),

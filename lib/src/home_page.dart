@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pillpal/src/medication_dialog.dart';
 import 'package:pillpal/src/medication_card.dart';
-import 'package:pillpal/src/navegation_bar.dart';
+import 'package:pillpal/src/navigation_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Your Week',
               style: TextStyle(
                 fontSize: 40,
@@ -55,28 +55,28 @@ class _HomePageState extends State<HomePage> {
         future: _medicationDays,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading medications'));
+            return const Center(child: Text('Error loading medications'));
           } else {
             Map<int, bool>? medicationDays = snapshot.data;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildDayColumn('Mo', medicationDays?[0] ?? false),
-                    _buildDayColumn('Tu', medicationDays?[1] ?? false),
-                    _buildDayColumn('We', medicationDays?[2] ?? false),
-                    _buildDayColumn('Th', medicationDays?[3] ?? false),
-                    _buildDayColumn('Fr', medicationDays?[4] ?? false),
-                    _buildDayColumn('Sa', medicationDays?[5] ?? false),
-                    _buildDayColumn('Su', medicationDays?[6] ?? false),
+                    _buildDayColumn('Mon', medicationDays?[0] ?? false),
+                    _buildDayColumn('Tue', medicationDays?[1] ?? false),
+                    _buildDayColumn('Wed', medicationDays?[2] ?? false),
+                    _buildDayColumn('Thu', medicationDays?[3] ?? false),
+                    _buildDayColumn('Fri', medicationDays?[4] ?? false),
+                    _buildDayColumn('Sat', medicationDays?[5] ?? false),
+                    _buildDayColumn('Sun', medicationDays?[6] ?? false),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Expanded(
                   child: MedicationPage(
                     futureFunction: _getCurrentWeekMedications,
@@ -104,9 +104,9 @@ class _HomePageState extends State<HomePage> {
           );
         },
         backgroundColor: Colors.red,
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: const NavBar(),
     );
   }
 
@@ -134,7 +134,7 @@ DateTime _getStartOfFixedWeek(DateTime date) {
 
 DateTime _getEndOfFixedWeek(DateTime date) {
   DateTime startOfWeek = _getStartOfFixedWeek(date);
-  return startOfWeek.add(Duration(
+  return startOfWeek.add(const Duration(
       days: 6, hours: 23, minutes: 59, seconds: 59, milliseconds: 999));
 }
 

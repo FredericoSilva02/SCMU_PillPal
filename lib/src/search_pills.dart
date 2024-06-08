@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pillpal/src/medication_dialog.dart';
 import 'package:pillpal/src/medication_card.dart';
-import 'package:pillpal/src/navegation_bar.dart';
+import 'package:pillpal/src/navigation_bar.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -21,7 +19,7 @@ class SearchPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Expanded(
             child: MedicationPage(
               futureFunction: getAllMedication,
@@ -46,9 +44,9 @@ class SearchPage extends StatelessWidget {
           );
         },
         backgroundColor: Colors.red,
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: const NavBar(),
     );
   }
 }

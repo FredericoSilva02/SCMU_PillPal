@@ -1,12 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
 
   @override
-  _NavBarState createState() => _NavBarState();
+  State<NavBar> createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
@@ -26,35 +24,35 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 95,
       child: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Transform.scale(
               scale: 1.2, // Increase scale for the home icon
-              child: Icon(Icons.home),
+              child: const Icon(Icons.home),
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Transform.scale(
               scale: 1.2, // Increase scale for the search icon
-              child: Icon(Icons.search),
+              child: const Icon(Icons.search),
             ),
             label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Transform.scale(
               scale: 1.2, // Increase scale for the profile icon
-              child: Icon(Icons.calendar_month),
+              child: const Icon(Icons.calendar_month),
             ),
             label: 'Calendar',
           ),
           BottomNavigationBarItem(
             icon: Transform.scale(
               scale: 1.2, // Increase scale for the profile icon
-              child: Icon(Icons.person),
+              child: const Icon(Icons.person),
             ),
             label: 'Profile',
           ),

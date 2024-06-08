@@ -1,9 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pillpal/src/navegation_bar.dart';
+import 'package:pillpal/src/navigation_bar.dart';
 import 'package:pillpal/src/user_dialog.dart';
 import 'package:intl/intl.dart';
 
@@ -22,7 +20,7 @@ class UserPage extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Medical info',
               style: TextStyle(
                 fontSize: 48,
@@ -42,11 +40,11 @@ class UserPage extends StatelessWidget {
         builder: (BuildContext context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No user data found'));
+            return const Center(child: Text('No user data found'));
           } else {
             var userData = snapshot.data!.docs.first.data();
             return UserInfoCard(
@@ -66,7 +64,7 @@ class UserInfoCard extends StatelessWidget {
   final Map<String, dynamic> userData;
   final Function()? onDialogClose;
 
-  const UserInfoCard({required this.userData, this.onDialogClose});
+  const UserInfoCard({super.key, required this.userData, this.onDialogClose});
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +83,12 @@ class UserInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     '${userData['Name']}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildUserInfoRow('Gender', userData['Gender']),
                   _buildUserInfoRow(
                       'Birthday',
@@ -99,25 +97,25 @@ class UserInfoCard extends StatelessWidget {
                   _buildUserInfoRow('Height', userData['Height'].toString()),
                   _buildUserInfoRow('Weight', userData['Weight'].toString()),
                   _buildUserInfoRow('Blood Group', userData['Blood Group']),
-                  SizedBox(height: 16),
-                  Text(
+                  const SizedBox(height: 16),
+                  const Text(
                     'Emergency Contacts',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   _buildUserInfoRow('Name', userData['Name']),
                   _buildUserInfoRow('Contact', userData['Contact']),
                   _buildUserInfoRow('Address', userData['Address']),
                   _buildUserInfoRow('Email', userData['Email']),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -138,7 +136,7 @@ class UserInfoCard extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: NavBar(),
+      bottomNavigationBar: const NavBar(),
     );
   }
 
@@ -148,13 +146,14 @@ class UserInfoCard extends StatelessWidget {
       children: [
         Text(
           '$label:',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         Text(value != null ? value.toString() : 'N/A'),
       ],
     );
   }
 
+  // ! TODO
   Widget _buildEmergencyContacts(Map<String, dynamic> userData) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

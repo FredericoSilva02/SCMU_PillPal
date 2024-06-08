@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,7 @@ class _LoginPage extends State<LoginPage> {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
 
-    Navigator.pushReplacementNamed(context, '/home');
+    if (mounted) Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
@@ -45,11 +43,11 @@ class _LoginPage extends State<LoginPage> {
                 height: 300,
                 fit: BoxFit.cover,
               ),
-              Text(
+              const Text(
                 'Login',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: SizedBox(
@@ -58,7 +56,7 @@ class _LoginPage extends State<LoginPage> {
                     children: [
                       TextField(
                         controller: _emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
@@ -69,14 +67,14 @@ class _LoginPage extends State<LoginPage> {
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       TextField(
                         controller: _passwordController,
                         obscureText: !_passwordVisible,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           labelText: 'Palavra-passe',
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: const Icon(Icons.lock),
                           suffixIcon: IconButton(
                             icon: Icon(
                               _passwordVisible
@@ -90,20 +88,20 @@ class _LoginPage extends State<LoginPage> {
                             },
                           ),
                           isDense: true,
-                          contentPadding: EdgeInsets.only(
+                          contentPadding: const EdgeInsets.only(
                             left: 15,
                           ),
                         ),
                         textAlignVertical: TextAlignVertical.center,
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       ElevatedButton(
                         onPressed: () => signin()
                             .then((value) => {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomePage()),
+                                        builder: (context) => const HomePage()),
                                   )
                                 })
                             .onError((error, stackTrace) => {
@@ -111,8 +109,8 @@ class _LoginPage extends State<LoginPage> {
                                       context: context,
                                       builder: (BuildContext context) =>
                                           AlertDialog(
-                                            title: Text("Erro"),
-                                            content: Text(
+                                            title: const Text("Erro"),
+                                            content: const Text(
                                                 "Email ou palavra-passe incorretos"),
                                             actions: [
                                               TextButton(
@@ -125,9 +123,9 @@ class _LoginPage extends State<LoginPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
-                          minimumSize: Size(double.infinity, 50),
+                          minimumSize: const Size(double.infinity, 50),
                         ),
-                        child: Text('Login'),
+                        child: const Text('Login'),
                       ),
                     ],
                   ),
@@ -136,16 +134,17 @@ class _LoginPage extends State<LoginPage> {
               RichText(
                 text: TextSpan(
                   text: "Don't have an account? ",
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   children: <TextSpan>[
                     TextSpan(
                       text: 'Sign up',
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignUp()),
+                            MaterialPageRoute(
+                                builder: (context) => const SignUp()),
                           );
                         },
                     ),
