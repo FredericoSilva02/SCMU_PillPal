@@ -127,7 +127,9 @@ class _SearchPageState extends State<SearchPage> {
         backgroundColor: Colors.red,
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: const NavBar(),
+      bottomNavigationBar: const NavBar(
+        selectedIndex: 1,
+      ),
     );
   }
 }

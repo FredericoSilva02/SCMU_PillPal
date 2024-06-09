@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+  final int selectedIndex;
+
+  const NavBar({super.key, required this.selectedIndex});
 
   @override
   State<NavBar> createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
-  void navigateToIndex(BuildContext context) {
-    if (_selectedIndex == 0) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else if (_selectedIndex == 1) {
-      Navigator.pushReplacementNamed(context, '/search');
-    } else if (_selectedIndex == 2) {
-      Navigator.pushReplacementNamed(context, '/calendar');
-    } else if (_selectedIndex == 3) {
-      Navigator.pushReplacementNamed(context, '/user');
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.selectedIndex;
+  }
+
+  void navigateToIndex(BuildContext context, int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/home',
+          arguments: {'selectedIndex': index});
+    } else if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/search',
+          arguments: {'selectedIndex': index});
+    } else if (index == 2) {
+      Navigator.pushReplacementNamed(context, '/calendar',
+          arguments: {'selectedIndex': index});
+    } else if (index == 3) {
+      Navigator.pushReplacementNamed(context, '/alerts',
+          arguments: {'selectedIndex': index});
+    } else if (index == 4) {
+      Navigator.pushReplacementNamed(context, '/user',
+          arguments: {'selectedIndex': index});
     }
   }
 
@@ -30,41 +49,46 @@ class _NavBarState extends State<NavBar> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Transform.scale(
-              scale: 1.2, // Increase scale for the home icon
-              child: const Icon(Icons.home),
+              scale: 1.2,
+              child: const Icon(Icons.home_rounded),
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Transform.scale(
-              scale: 1.2, // Increase scale for the search icon
-              child: const Icon(Icons.search),
+              scale: 1.2,
+              child: const Icon(Icons.search_rounded),
             ),
             label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Transform.scale(
-              scale: 1.2, // Increase scale for the profile icon
-              child: const Icon(Icons.calendar_month),
+              scale: 1.2,
+              child: const Icon(Icons.calendar_month_rounded),
             ),
             label: 'Calendar',
           ),
           BottomNavigationBarItem(
             icon: Transform.scale(
-              scale: 1.2, // Increase scale for the profile icon
-              child: const Icon(Icons.person),
+              scale: 1.2,
+              child: const Icon(Icons.notifications_none_rounded),
+            ),
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Transform.scale(
+              scale: 1.2,
+              child: const Icon(Icons.person_rounded),
             ),
             label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.red,
-        backgroundColor: Colors.red.shade50, // Light shade of red
+        unselectedItemColor: Colors.black,
+        backgroundColor: Colors.red.shade50,
         onTap: (value) {
-          setState(() {
-            _selectedIndex = value;
-            navigateToIndex(context);
-          });
+          navigateToIndex(context, value);
         },
         type: BottomNavigationBarType.fixed,
       ),

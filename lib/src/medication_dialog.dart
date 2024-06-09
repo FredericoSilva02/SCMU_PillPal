@@ -164,7 +164,7 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
             ),
         ],
       ),
-      content: Container(
+      content: SizedBox(
         height: 400,
         child: SingleChildScrollView(
           child: Column(

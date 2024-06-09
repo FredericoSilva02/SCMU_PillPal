@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pillpal/src/user.dart';
+import 'package:pillpal/src/calendar.dart';
+import 'package:pillpal/src/medical_info.dart';
 import 'package:pillpal/src/firebase_options.dart';
 import 'package:pillpal/src/home_page.dart';
+import 'package:pillpal/src/notifications.dart';
 import 'package:pillpal/src/search_pills.dart';
 import 'app_state.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +40,10 @@ class MyApp extends StatelessWidget {
         home: const LoginPage(),
         routes: {
           '/home': (context) => const HomePage(),
-          '/user': (context) => const UserPage(),
           '/search': (context) => const SearchPage(),
-          // TODO: Add the calendar route
+          '/calendar': (context) => const CalendarPage(),
+          '/alerts': (context) => const NotificationsPage(),
+          '/user': (context) => const MediacalInfoPage(),
         },
       ),
     );
