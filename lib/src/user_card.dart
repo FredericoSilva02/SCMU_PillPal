@@ -118,6 +118,6 @@ Future<QuerySnapshot<Map<String, dynamic>>> getCareTakerInfo(
     String caretakerId) async {
   return await FirebaseFirestore.instance
       .collection('users')
-      .where('Name', isEqualTo: caretakerId)
+      .where('CarteTakerId', isEqualTo: caretakerId)
       .get();
 }
