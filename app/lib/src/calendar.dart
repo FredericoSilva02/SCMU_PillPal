@@ -240,8 +240,7 @@ class _CalendarPageState extends State<CalendarPage> {
 class CustomEventItem extends StatelessWidget {
   final String eventDetail;
 
-  const CustomEventItem({Key? key, required this.eventDetail})
-      : super(key: key);
+  const CustomEventItem({super.key, required this.eventDetail});
 
   @override
   Widget build(BuildContext context) {
