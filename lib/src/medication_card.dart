@@ -64,10 +64,24 @@ class MedicationPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    medicationData['Name'],
-                    style: const TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: medicationData['HasStock'] ? Colors.green : Colors.red,
+                        ),
+                      ),
+                      const SizedBox(width: 8), // Add some space between the circle and the text
+                      Text(
+                        medicationData['Tube'].isEmpty 
+                            ? medicationData['Name']
+                            : '${medicationData['Name']} (${medicationData['Tube']})',
+                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Text(

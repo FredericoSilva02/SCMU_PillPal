@@ -18,6 +18,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _dosageController;
+  late TextEditingController _tubeController;
+  late bool _stockController;
   late TextEditingController _startDateController;
   late TextEditingController _finishDateController;
   final List<bool> _selectedDays = List.filled(7, false);
@@ -34,6 +36,9 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
     _dosageController = TextEditingController(
         text:
             widget.medData != null ? widget.medData!['Dosage'].toString() : '');
+    _tubeController = TextEditingController(
+        text: widget.medData != null ? widget.medData!['Tube'] : '');
+    _stockController = widget.medData != null && widget.medData!['HasStock'] == false;
     _startDateController = TextEditingController(
         text: widget.medData != null
             ? (widget.medData!['Start'] as Timestamp)
@@ -75,6 +80,7 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
     _nameController.dispose();
     _descriptionController.dispose();
     _dosageController.dispose();
+    _tubeController.dispose();
     _startDateController.dispose();
     _finishDateController.dispose();
     super.dispose();
@@ -186,6 +192,23 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
                 keyboardType: TextInputType.number,
               ),
               TextField(
+                controller: _tubeController,
+                decoration: const InputDecoration(labelText: 'Tube'),
+              ),
+              Row(
+                children: [
+                  const Text('Has Stock'),
+                  Checkbox(
+                    value: _stockController,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _stockController = value ?? false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              TextField(
                 controller: _startDateController,
                 decoration: const InputDecoration(
                   labelText: 'Starting date*',
@@ -267,6 +290,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
               String name = _nameController.text;
               String description = _descriptionController.text;
               num dosage = num.tryParse(_dosageController.text) ?? 0;
+              String tube = _tubeController.text;
+              bool hasStock = _stockController;
               List<int> days = [];
               for (int i = 0; i < _selectedDays.length; i++) {
                 if (_selectedDays[i]) {
@@ -281,10 +306,10 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
                   DateTime.parse(_finishDateController.text));
 
               if (widget.medData != null) {
-                updateMedication(userId, name, description, dosage, days,
+                updateMedication(userId, name, description, dosage, tube, hasStock, days,
                     reminders, start, finish);
               } else {
-                createMedication(userId, name, description, dosage, days,
+                createMedication(userId, name, description, dosage, tube, hasStock, days,
                     reminders, start, finish);
               }
               Navigator.of(context).pop();
@@ -348,6 +373,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       String name,
       String description,
       num dosage,
+      String tube,
+      bool hasStock,
       List<int> days,
       List<dynamic> reminders,
       Timestamp start,
@@ -359,6 +386,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       'UserId': userId,
       'Description': description,
       'Dosage': dosage,
+      'Tube': tube,
+      'HasStock': hasStock,
       'Days': days,
       'Reminders': reminders,
       'Start': start,
@@ -373,6 +402,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       String name,
       String description,
       num dosage,
+      String tube,
+      bool hasStock,
       List<int> days,
       List<dynamic> reminders,
       Timestamp start,
@@ -385,6 +416,8 @@ class _AddMedicationDialogState extends State<AddMedicationDialog> {
       'UserId': userId,
       'Description': description,
       'Dosage': dosage,
+      'Tube': tube,
+      'HasStock': hasStock,
       'Days': days,
       'Reminders': reminders,
       'Start': start,
